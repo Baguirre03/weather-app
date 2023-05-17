@@ -12,8 +12,9 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Development',
-    }),
+      title: 'Weather App',
+      template: './src/index.html'
+    })
   ],
   output: {
     filename: '[name].js',
@@ -29,7 +30,7 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
-      },
+      }
     ],
   },
   optimization: {
