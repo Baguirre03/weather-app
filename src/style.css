@@ -1,3 +1,8 @@
 button {
   color: red;
 }
+
+.weather {
+  display: flex;
+  gap: 1vw;
+}
