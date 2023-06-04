@@ -1,4 +1,7 @@
 import "./style.css";
+import format from "date-fns/format";
+import getDay from "date-fns/getDay";
+
 let typeOfTemp = "F";
 let currentPlace;
 defaultSearch();
@@ -113,6 +116,7 @@ function clearContainer() {
 function displayContent(data) {
   clearContainer();
   console.log(data);
+  displayDays();
 
   //location
   const cityState = document.querySelector(".city");
@@ -121,8 +125,8 @@ function displayContent(data) {
   country.textContent = data.location.country;
 
   //forecast
-  let weather = data.weather;
-  weather.forEach((weather) => {
+  let forecast = data.weather;
+  forecast.forEach((weather) => {
     const weatherHolder = document.querySelector(".weather");
 
     const eachWeather = document.createElement("div");
@@ -146,4 +150,12 @@ function displayContent(data) {
 
     eachWeather.append(date, currentTemp, maxTemp, condition);
   });
+}
+
+function displayDays() {
+  const today = document.querySelector(".today");
+  const date = document.querySelector(".date");
+  const dayOfWeek = format(new Date(), "EEEE");
+  const dateFormatted = format(new Date(), "MM/dd/yyyy");
+  today.textContent = "Happy " + dayOfWeek + ", " + dateFormatted + "!";
 }
