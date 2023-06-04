@@ -1,21 +1,47 @@
 import "./style.css";
+let typeOfTemp = "F";
+let currentPlace;
+defaultSearch();
+
 const searchFromForm = (() => {
   const form = document.querySelector("form");
   const input = document.querySelector("input");
-
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    searchWeather(input.value);
+    updateCurrentPlace(input.value);
+    searchWeather(currentPlace);
+  });
+
+  const celciusBtn = document.querySelector(".celciusButton");
+  const farenheightBtn = document.querySelector(".farenheightButton");
+
+  celciusBtn.addEventListener("click", () => {
+    updateTypeOfTemp("C");
+    searchWeather(currentPlace);
+  });
+
+  farenheightBtn.addEventListener("click", () => {
+    updateTypeOfTemp("F");
+    searchWeather(currentPlace);
   });
 })();
+
+function updateCurrentPlace(place) {
+  currentPlace = place;
+}
+
+function updateTypeOfTemp(type) {
+  typeOfTemp = type;
+}
 
 async function defaultSearch() {
   try {
     const weatherData = await fetch(
-      `http://api.weatherapi.com/v1/current.json?key=61a80c65e68244318ae200949231005&q=new york&days=5`,
+      `http://api.weatherapi.com/v1/forecast.json?key=61a80c65e68244318ae200949231005&q=auto:ip&days=4`,
       { mode: "cors" }
     );
     const formattedData = await weatherData.json();
+    updateCurrentPlace(formattedData.location.name);
     dataIntoObject(formattedData);
   } catch (err) {
     throw new Error(err);
@@ -25,7 +51,7 @@ async function defaultSearch() {
 async function searchWeather(search) {
   try {
     const weatherData = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?key=61a80c65e68244318ae200949231005&q=${search}&days=5`,
+      `http://api.weatherapi.com/v1/forecast.json?key=61a80c65e68244318ae200949231005&q=${search}&days=4`,
       { mode: "cors" }
     );
     const formattedData = await weatherData.json();
@@ -77,15 +103,22 @@ function collectAllData(locationInfo, weatherInfo) {
   return allData;
 }
 
+function clearContainer() {
+  const container = document.querySelector(".weather");
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+}
+
 function displayContent(data) {
+  clearContainer();
   console.log(data);
+
   //location
-  const city = document.querySelector(".city");
+  const cityState = document.querySelector(".city");
   const country = document.querySelector(".country");
-  const state = document.querySelector(".state");
-  city.textContent = data.location.city;
+  cityState.textContent = data.location.city + ", " + data.location.region;
   country.textContent = data.location.country;
-  state.textContent = data.location.region;
 
   //forecast
   let weather = data.weather;
@@ -96,17 +129,21 @@ function displayContent(data) {
     weatherHolder.appendChild(eachWeather);
 
     const date = document.createElement("div");
-    date.textContent = "Today: " + weather.date;
+    date.textContent = weather.date;
 
-    const tempCelc = document.createElement("div");
-    tempCelc.textContent = "Average Temp Celcius: " + weather.avgtemp_c;
-
-    const maxTempCelc = document.createElement("div");
-    maxTempCelc.textContent = "Max Temp Celcius: " + weather.maxtemp_c;
-
+    const currentTemp = document.createElement("div");
+    const maxTemp = document.createElement("div");
+    if (typeOfTemp === "C") {
+      currentTemp.textContent = "Current Temp Celcius: " + weather.avgtemp_c;
+      maxTemp.textContent = "Max Temp Celcius: " + weather.maxtemp_c;
+    } else if (typeOfTemp === "F") {
+      currentTemp.textContent =
+        "Current Temperature Farenheight: " + weather.avgtemp_f;
+      maxTemp.textContent = "Max Temperature Farenheight: " + weather.maxtemp_f;
+    }
     const condition = document.createElement("div");
     condition.textContent = "condition: " + weather.condition;
 
-    eachWeather.append(date, tempCelc, maxTempCelc, condition);
+    eachWeather.append(date, currentTemp, maxTemp, condition);
   });
 }
