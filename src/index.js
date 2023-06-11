@@ -1,3 +1,4 @@
+import { parseISO } from "date-fns";
 import "./style.css";
 import format from "date-fns/format";
 
@@ -77,6 +78,7 @@ async function searchWeather(search) {
 }
 
 function dataIntoObject(data) {
+  console.log(data);
   const forecast = data.forecast.forecastday;
   const location = data.location;
   let weather = collectAllData(
@@ -105,6 +107,7 @@ function forecastDataIntoObj(forecastArray) {
       condition: forecast.day.condition.text,
       maxtemp_f: forecast.day.maxtemp_f,
       maxtemp_c: forecast.day.maxtemp_c,
+      icon: forecast.day.condition.icon,
     };
     forecastContent.push(days);
   });
@@ -123,32 +126,12 @@ function clearContainer() {
   }
 }
 
-let weatherEmojis = {
-  cloudy: "☁️",
-  sunny: "☀️",
-  rainy: "🌧",
-  storm: "⛈",
-};
-
-function changeHeaderEmoji(weatherEmoji) {
-  weatherHeader.textContent = weatherEmoji;
-}
-
-function changeEmojis(weatherType) {
-  if (weatherType.includes("rain")) {
-    return weatherEmojis.rainy;
-  } else if (weatherType.includes("cloud")) {
-    return weatherEmojis.cloudy;
-  } else if (weatherType.includes("sun")) {
-    return weatherEmojis.sunny;
-  } else if (weatherType.includes("storm")) {
-    return weatherEmojis.storm;
-  }
+function changeHeaderEmoji(icon) {
+  weatherHeader.src = icon;
 }
 
 function displayContent(data) {
   clearContainer();
-  console.log(data);
   displayDays();
 
   //location
@@ -159,34 +142,41 @@ function displayContent(data) {
 
   //forecast
   let forecast = data.weather;
+
   //for header emoji
-  changeHeaderEmoji(changeEmojis(forecast[0].condition));
+  changeHeaderEmoji(forecast[0].icon);
 
   //for rest of forecast
   forecast.forEach((weather) => {
     const weatherHolder = document.querySelector(".weather");
 
     const eachWeather = document.createElement("div");
+    eachWeather.classList.add("weather-card");
     weatherHolder.appendChild(eachWeather);
 
     const date = document.createElement("div");
-    date.textContent = weather.date;
+    if (weather.date === format(new Date(), "yyyy-MM-dd")) {
+      date.textContent =
+        "Today" + ", " + format(parseISO(weather.date), "EEEE");
+    } else {
+      const changedDate = format(parseISO(weather.date), "EEEE");
+      date.textContent = changedDate;
+    }
 
     const currentTemp = document.createElement("div");
     const maxTemp = document.createElement("div");
     if (typeOfTemp === "C") {
-      currentTemp.textContent = "Current Temp Celcius: " + weather.avgtemp_c;
-      maxTemp.textContent = "Max Temp Celcius: " + weather.maxtemp_c;
+      currentTemp.textContent = "Current: " + weather.avgtemp_c + "°";
+      maxTemp.textContent = "Max: " + weather.maxtemp_c + "°";
     } else if (typeOfTemp === "F") {
-      currentTemp.textContent =
-        "Current Temperature Farenheight: " + weather.avgtemp_f;
-      maxTemp.textContent = "Max Temperature Farenheight: " + weather.maxtemp_f;
+      currentTemp.textContent = "Current: " + weather.avgtemp_f + "°";
+      maxTemp.textContent = "Max: " + weather.maxtemp_f + "°";
     }
     const condition = document.createElement("div");
-    condition.textContent = "condition: " + weather.condition;
+    condition.textContent = weather.condition;
 
-    const emoji = document.createElement("h1");
-    emoji.textContent = changeEmojis(weather.condition);
+    const emoji = document.createElement("img");
+    emoji.src = weather.icon;
 
     eachWeather.append(date, emoji, currentTemp, maxTemp, condition);
   });
