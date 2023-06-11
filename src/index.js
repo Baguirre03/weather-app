@@ -1,8 +1,8 @@
 import "./style.css";
 import format from "date-fns/format";
-import getDay from "date-fns/getDay";
 
-let typeOfTemp = "F";
+const weatherHeader = document.querySelector(".weather-header");
+let typeOfTemp = "C";
 let currentPlace;
 defaultSearch();
 
@@ -15,19 +15,30 @@ const searchFromForm = (() => {
     searchWeather(currentPlace);
   });
 
-  const celciusBtn = document.querySelector(".celciusButton");
-  const farenheightBtn = document.querySelector(".farenheightButton");
-
-  celciusBtn.addEventListener("click", () => {
-    updateTypeOfTemp("C");
-    searchWeather(currentPlace);
-  });
-
-  farenheightBtn.addEventListener("click", () => {
-    updateTypeOfTemp("F");
-    searchWeather(currentPlace);
+  const checkbox = document.querySelector("#switch");
+  checkbox.addEventListener("change", () => {
+    if (checkbox.checked) {
+      //is Celcius - Changing to Farenheight
+      updateTypeOfTemp("F");
+      changeWeatherTypeDisplay();
+      searchWeather(currentPlace);
+    } else {
+      //is Farenheight - Changing to Celcius
+      updateTypeOfTemp("C");
+      changeWeatherTypeDisplay();
+      searchWeather(currentPlace);
+    }
   });
 })();
+
+function changeWeatherTypeDisplay() {
+  const display = document.querySelector(".tempDisplay");
+  if (display.textContent.includes("C")) {
+    display.textContent = "F";
+  } else {
+    display.textContent = "C";
+  }
+}
 
 function updateCurrentPlace(place) {
   currentPlace = place;
@@ -68,7 +79,6 @@ async function searchWeather(search) {
 function dataIntoObject(data) {
   const forecast = data.forecast.forecastday;
   const location = data.location;
-  // displayWeather(locationDataIntoObj(location), forecastDataIntoObj(forecast));
   let weather = collectAllData(
     locationDataIntoObj(location),
     forecastDataIntoObj(forecast)
@@ -113,6 +123,29 @@ function clearContainer() {
   }
 }
 
+let weatherEmojis = {
+  cloudy: "☁️",
+  sunny: "☀️",
+  rainy: "🌧",
+  storm: "⛈",
+};
+
+function changeHeaderEmoji(weatherEmoji) {
+  weatherHeader.textContent = weatherEmoji;
+}
+
+function changeEmojis(weatherType) {
+  if (weatherType.includes("rain")) {
+    return weatherEmojis.rainy;
+  } else if (weatherType.includes("cloud")) {
+    return weatherEmojis.cloudy;
+  } else if (weatherType.includes("sun")) {
+    return weatherEmojis.sunny;
+  } else if (weatherType.includes("storm")) {
+    return weatherEmojis.storm;
+  }
+}
+
 function displayContent(data) {
   clearContainer();
   console.log(data);
@@ -126,6 +159,10 @@ function displayContent(data) {
 
   //forecast
   let forecast = data.weather;
+  //for header emoji
+  changeHeaderEmoji(changeEmojis(forecast[0].condition));
+
+  //for rest of forecast
   forecast.forEach((weather) => {
     const weatherHolder = document.querySelector(".weather");
 
@@ -148,7 +185,10 @@ function displayContent(data) {
     const condition = document.createElement("div");
     condition.textContent = "condition: " + weather.condition;
 
-    eachWeather.append(date, currentTemp, maxTemp, condition);
+    const emoji = document.createElement("h1");
+    emoji.textContent = changeEmojis(weather.condition);
+
+    eachWeather.append(date, emoji, currentTemp, maxTemp, condition);
   });
 }
 
@@ -156,6 +196,7 @@ function displayDays() {
   const today = document.querySelector(".today");
   const date = document.querySelector(".date");
   const dayOfWeek = format(new Date(), "EEEE");
-  const dateFormatted = format(new Date(), "MM/dd/yyyy");
-  today.textContent = "Happy " + dayOfWeek + ", " + dateFormatted + "!";
+  const dateFormatted = format(new Date(), "PP");
+  today.textContent = "Happy " + dayOfWeek + "! ";
+  date.textContent = dateFormatted;
 }

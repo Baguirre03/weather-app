@@ -7,7 +7,10 @@
     <title>Weather App</title>
   </head>
   <body>
-    <h1>Weather App</h1>
+    <div class="header">
+      <h1 class="weather-header"></h1>
+      <h1>Weather App</h1>
+    </div>
     <div class="displayDates">
       <h3 class="today"></h3>
       <h3 class="date"></h3>
@@ -23,8 +26,8 @@
       <h3 class="country"></h3>
     </div>
     <div class="swtichTemp">
-      <button class="celciusButton">Celcius</button>
-      <button class="farenheightButton">Farenheight</button>
+      <label class="tempDisplay" for="switch">C</label>
+      <input type="checkbox" id="switch" />
     </div>
     <div class="weather"></div>
   </body>
