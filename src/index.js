@@ -162,6 +162,7 @@ function displayContent(data) {
       const changedDate = format(parseISO(weather.date), "EEEE");
       date.textContent = changedDate;
     }
+    date.classList.add("card-header");
 
     const currentTemp = document.createElement("div");
     const maxTemp = document.createElement("div");

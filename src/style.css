@@ -1,6 +1,7 @@
 * {
   padding: 0;
   margin: 0;
+  --header: 1.5rem;
 }
 
 body {
@@ -40,8 +41,9 @@ body {
   align-items: center;
 }
 
-.title h1 {
-  font-size: 2.5rem;
+.title p {
+  font-size: 2.2rem;
+  font-weight: bold;
 }
 
 .displayDates {
@@ -51,10 +53,65 @@ body {
   align-items: center;
 }
 
+.today {
+  font-size: var(--header);
+  font-weight: bold;
+}
+
+.date {
+  font-size: var(--header);
+  font-weight: bold;
+}
+
 .search-container {
   display: flex;
+  height: 4vh;
   gap: 2vw;
   align-self: center;
+  justify-content: center;
+}
+
+#search-form {
+  display: flex;
+}
+
+#search-input {
+  background-color: transparent;
+  width: 15vw;
+  border: none;
+  border-bottom: 2px solid black;
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  color: white;
+  padding: 5px;
+  outline: none;
+}
+
+#search-input: {
+  transition: none;
+}
+
+#search-input:focus {
+  width: 20vw;
+  transition: all 1s;
+}
+
+#search-button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
+  border-top: 2px solid black;
+}
+
+input:focus {
+  outline: none;
+}
+
+.search-svg {
+  fill: white;
+  height: 100%;
 }
 
 .main-container {
@@ -63,6 +120,7 @@ body {
   flex: 1;
   width: max-content;
   align-self: center;
+  gap: 2vh;
 }
 
 .weather {
@@ -71,11 +129,22 @@ body {
 }
 
 .weather-card {
-  background-color: lightblue;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #d8bfd8;
   padding: 1vw;
   border-radius: 5px;
-  box-shadow: 5px 5px 5px black;
-  font-size: 1.2rem;
+  box-shadow: 10px 10px 10px black;
+  font-size: 1.1rem;
+}
+
+.card-header {
+  font-weight: bold;
+}
+
+.weather-card:hover {
+  translate: 0px -2px;
 }
 
 .location {
