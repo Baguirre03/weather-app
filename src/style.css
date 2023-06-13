@@ -65,7 +65,7 @@ body {
 
 .search-container {
   display: flex;
-  height: 4vh;
+  height: 4.3vh;
   gap: 2vw;
   align-self: center;
   justify-content: center;
@@ -73,36 +73,38 @@ body {
 
 #search-form {
   display: flex;
+  padding: 3px;
+  background-color: darkslateblue;
+  border: 1px solid black;
+  border-radius: 50vw;
+  font-size: 2rem;
 }
 
 #search-input {
   background-color: transparent;
   width: 15vw;
   border: none;
-  border-bottom: 2px solid black;
-  border-left: 2px solid black;
-  border-top: 2px solid black;
   color: white;
   padding: 5px;
   outline: none;
 }
 
-#search-input: {
+#search-input {
   transition: none;
 }
 
-#search-input:focus {
-  width: 20vw;
-  transition: all 1s;
+#search-input .tran {
+  width: 30vw;
 }
 
 #search-button {
   background-color: transparent;
   outline: none;
   border: none;
-  border-bottom: 2px solid black;
-  border-right: 2px solid black;
-  border-top: 2px solid black;
+}
+
+#search-button:hover {
+  cursor: pointer;
 }
 
 input:focus {

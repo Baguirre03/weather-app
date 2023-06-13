@@ -7,6 +7,16 @@ let typeOfTemp = "C";
 let currentPlace;
 defaultSearch();
 
+function annimateSearch(element) {
+  element.style.width = "20vw";
+  element.style.transition = "all 1s";
+}
+
+function removeAnimateSearch(element) {
+  element.style.width = "15vw";
+  element.style.transition = "all 1s";
+}
+
 const searchFromForm = (() => {
   const form = document.querySelector("form");
   const input = document.querySelector("input");
@@ -14,6 +24,14 @@ const searchFromForm = (() => {
     e.preventDefault();
     updateCurrentPlace(input.value);
     searchWeather(currentPlace);
+  });
+
+  input.addEventListener("focus", (e) => {
+    annimateSearch(input);
+  });
+
+  input.addEventListener("focusout", () => {
+    removeAnimateSearch(input);
   });
 
   const checkbox = document.querySelector("#switch");
@@ -88,6 +106,11 @@ function dataIntoObject(data) {
   displayContent(weather);
 }
 
+function collectAllData(locationInfo, weatherInfo) {
+  let allData = { location: locationInfo, weather: weatherInfo };
+  return allData;
+}
+
 function locationDataIntoObj(locationData) {
   let location = {
     country: locationData.country,
@@ -114,16 +137,20 @@ function forecastDataIntoObj(forecastArray) {
   return forecastContent;
 }
 
-function collectAllData(locationInfo, weatherInfo) {
-  let allData = { location: locationInfo, weather: weatherInfo };
-  return allData;
-}
-
 function clearContainer() {
   const container = document.querySelector(".weather");
   while (container.firstChild) {
     container.removeChild(container.firstChild);
   }
+}
+
+function displayDays() {
+  const today = document.querySelector(".today");
+  const date = document.querySelector(".date");
+  const dayOfWeek = format(new Date(), "EEEE");
+  const dateFormatted = format(new Date(), "PP");
+  today.textContent = "Happy " + dayOfWeek + "! ";
+  date.textContent = dateFormatted;
 }
 
 function changeHeaderEmoji(icon) {
@@ -181,13 +208,4 @@ function displayContent(data) {
 
     eachWeather.append(date, emoji, currentTemp, maxTemp, condition);
   });
-}
-
-function displayDays() {
-  const today = document.querySelector(".today");
-  const date = document.querySelector(".date");
-  const dayOfWeek = format(new Date(), "EEEE");
-  const dateFormatted = format(new Date(), "PP");
-  today.textContent = "Happy " + dayOfWeek + "! ";
-  date.textContent = dateFormatted;
 }
