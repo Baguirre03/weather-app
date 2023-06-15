@@ -194,7 +194,7 @@ input:focus {
   background: black;
   border-radius: 50vw;
   cursor: pointer;
-  border: 1px solid white;
+  border: 1.5px solid #89cff0;
 }
 
 .switchTemp input[type="checkbox"] + label:before {
