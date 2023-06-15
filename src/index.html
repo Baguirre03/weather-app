@@ -7,7 +7,7 @@
     <title>Weather App</title>
   </head>
   <body>
-    <div class="header">
+    <header class="header">
       <div class="title">
         <img src="" alt="" class="weather-header" />
         <p>Weather App</p>
@@ -28,22 +28,23 @@
             </svg>
           </button>
         </form>
-        <div class="swtichTemp">
-          <label class="tempDisplay" for="switch">C</label>
+        <div class="switchTemp">
           <input type="checkbox" id="switch" />
+          <label class="tempDisplay" id="rect2" for="switch"></label>
+          <div class="celc-or-faren">Celcius</div>
         </div>
       </div>
       <div class="displayDates">
         <p class="today"></p>
         <p class="date"></p>
       </div>
-    </div>
-    <div class="main-container">
+    </header>
+    <main class="main-container">
       <div class="location">
         <h3 class="city"></h3>
         <h3 class="country"></h3>
       </div>
       <div class="weather"></div>
-    </div>
+    </main>
   </body>
 </html>

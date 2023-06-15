@@ -51,11 +51,11 @@ const searchFromForm = (() => {
 })();
 
 function changeWeatherTypeDisplay() {
-  const display = document.querySelector(".tempDisplay");
-  if (display.textContent.includes("C")) {
-    display.textContent = "F";
+  const display = document.querySelector(".celc-or-faren");
+  if (display.textContent === "Celcius") {
+    display.textContent = "Farenheight";
   } else {
-    display.textContent = "C";
+    display.textContent = "Celcius";
   }
 }
 
@@ -96,7 +96,6 @@ async function searchWeather(search) {
 }
 
 function dataIntoObject(data) {
-  console.log(data);
   const forecast = data.forecast.forecastday;
   const location = data.location;
   let weather = collectAllData(
@@ -108,6 +107,7 @@ function dataIntoObject(data) {
 
 function collectAllData(locationInfo, weatherInfo) {
   let allData = { location: locationInfo, weather: weatherInfo };
+  console.log(allData);
   return allData;
 }
 
@@ -206,6 +206,6 @@ function displayContent(data) {
     const emoji = document.createElement("img");
     emoji.src = weather.icon;
 
-    eachWeather.append(date, emoji, currentTemp, maxTemp, condition);
+    eachWeather.append(date, emoji, condition, currentTemp, maxTemp);
   });
 }
