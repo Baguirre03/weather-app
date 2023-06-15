@@ -70,7 +70,7 @@ function updateTypeOfTemp(type) {
 async function defaultSearch() {
   try {
     const weatherData = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?key=61a80c65e68244318ae200949231005&q=auto:ip&days=4`,
+      `http://api.weatherapi.com/v1/forecast.json?key=61a80c65e68244318ae200949231005&q=auto:ip&days=3`,
       { mode: "cors" }
     );
     const formattedData = await weatherData.json();
@@ -84,7 +84,7 @@ async function defaultSearch() {
 async function searchWeather(search) {
   try {
     const weatherData = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?key=61a80c65e68244318ae200949231005&q=${search}&days=4`,
+      `http://api.weatherapi.com/v1/forecast.json?key=61a80c65e68244318ae200949231005&q=${search}&days=3`,
       { mode: "cors" }
     );
     const formattedData = await weatherData.json();
