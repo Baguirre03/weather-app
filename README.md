@@ -3,7 +3,7 @@
 ### Result
 
 [**Link to Page**](https://baguirre03.github.io/weather-app/)
-![preview format](./src/imgs/screenshot.png?raw=true "Preview")
+![preview format](./src/images/screenshot.png?raw=true "Preview")
 
 ### About the project
 
